@@ -18,21 +18,13 @@ import java.util.List;
 @Repository
 public class UserDaoImpl implements UserDao {
 
-//    @Autowired
-//    private ConnectConfig connectConfig;
-
     @Autowired
     private Connection  connection;
-
-//    @PostConstruct
-//    public void init(){
-//        connection = connectConfig.createConnection();
-//    }
 
     @Override
     public List<User> userList() {
 
-        final String QUERY_SQL = "SELECT * FROM student";
+        final String QUERY_SQL = "SELECT * FROM Notebook";
 
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -42,10 +34,7 @@ public class UserDaoImpl implements UserDao {
             ps = connection.prepareStatement(QUERY_SQL);
             rs = ps.executeQuery();
             while (rs.next()) {
-                User user = new User();
-                user.setName(rs.getString(1));
-                userList.add(user);
-
+                userList.add(new User(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4)));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -57,7 +46,6 @@ public class UserDaoImpl implements UserDao {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-
         }
         return userList;
     }

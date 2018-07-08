@@ -9,10 +9,12 @@ public interface UserService {
 
     List<User> userList();
 
-    List<User> userListWithModific();
+    void addUser(String name,String secName,String phone);
 
-    Map<User,String> userListWithCel();
+    void delUser(int id);
 
-    User getById();
+    void editUserById(int id,String name,String secName,String phone);
+
+
 
 }

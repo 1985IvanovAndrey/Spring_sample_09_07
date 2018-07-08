@@ -5,26 +5,31 @@
     <title>Title</title>
 </head>
 <body>
-<p> start jsp</p>
-<br/>
-
-<ul>
+<h3>${errorPhone}</h3>
+<h2>Все записи в записной книжке</h2>
+<table border="4" cellpadding="5" cellspacing="4">
+    <tr>
+        <td>id</td>
+        <td>name</td>
+        <td>sec_name</td>
+        <td>phone</td>
+    </tr>
     <c:forEach var="user" items="${userList}">
-        <li>${user.name}</li>
+        <tr>
+            <td>${user.id}</td>
+            <td>${user.name}</td>
+            <td>${user.secName}</td>
+            <td>${user.phone}</td>
+        </tr>
     </c:forEach>
-</ul>
+</table>
+<br>
+<br>
+<form action="/edit" method="get">
+    <input type="submit" value="edit" name="buttonAdd">
+</form>
 
 <br/>
-<p>-----------------------------------------------------</p>
-
-<p>-----------------------------------------------------</p>
-<br/>
-
-<ul>
-    <c:forEach var="user" items="${userListModify}">
-        <li>${user.name}</li>
-    </c:forEach>
-</ul>
 
 </body>
 </html>

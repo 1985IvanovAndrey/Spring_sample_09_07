@@ -3,9 +3,17 @@ package com.mvcTest.service.impl;
 import com.mvcTest.dao.UserDao;
 import com.mvcTest.entity.User;
 import com.mvcTest.service.UserService;
+import org.omg.PortableServer.RequestProcessingPolicyOperations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +23,8 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserDao userDao;
+    @Autowired
+    private Connection connection;
 
     @Override
     public List<User> userList() {
@@ -22,26 +32,40 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> userListWithModific() {
-        List<User> userList = userDao.userList();
-        for (User user : userList) {
-            user.setName(user.getName() + " -word");
+    public void addUser(String name, String secName, String phone) {
+        String script = "INSERT INTO notebook(name,sec_name,phone) VALUES (" + "'" + name + "','" + secName + "','" + phone + "')";
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            ps = connection.prepareStatement(script);
+            rs = ps.executeQuery();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        return userList;
     }
 
     @Override
-    public Map<User, String> userListWithCel() {
-        List<User> userList = userDao.userList();
-        Map<User, String> userSelary = new HashMap<>();
-        for (int i = 0; i < userList.size(); i++) {
-            userSelary.put(userList.get(i), String.valueOf(i + 100));
+    public void delUser(int id) {
+        String script = "DELETE FROM notebook WHERE id="+id;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            ps = connection.prepareStatement(script);
+            rs = ps.executeQuery();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        return userSelary;
     }
-
     @Override
-    public User getById() {
-        return null;
+    public void editUserById(int id,String name,String secName,String phone){
+        String script="UPDATE notebook SET name="+"'"+name+"',"+"sec_name="+"'"+secName+"',"+"phone="+"'"+phone+"' "+"WHERE id="+id;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            ps = connection.prepareStatement(script);
+            rs = ps.executeQuery();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
