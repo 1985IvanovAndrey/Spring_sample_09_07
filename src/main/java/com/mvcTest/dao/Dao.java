@@ -4,10 +4,8 @@ import com.mvcTest.entity.User;
 
 import java.util.List;
 
-public interface UserDao {
+public interface Dao {
 
-    List<User> userList();
 
-    User getById();
 
 }
